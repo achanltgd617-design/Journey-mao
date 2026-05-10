@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Journal Club | Myelin Repair by Constitutive OPC Differentiation</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0f2a44;
+    --navy-light:#1c3d5c;
+    --paper:#faf7f0;
+    --paper-dark:#f3eee2;
+    --ink:#1a1a1a;
+    --muted:#5a6470;
+    --border:#d8d0bd;
+
+    /* 题号配色 */
+    --q1:#c0392b;     /* 核心论点 - 红 */
+    --q1-bg:#fdecea;
+    --q2:#2980b9;     /* 方法学 DACS - 蓝 */
+    --q2-bg:#e8f2fb;
+    --q3:#16a085;     /* attempt vs success - 青绿 */
+    --q3-bg:#e6f5f1;
+    --q4:#8e44ad;     /* aging/inflammation - 紫 */
+    --q4-bg:#f1e8f6;
+    --q5:#d68910;     /* 局限 - 橙 */
+    --q5-bg:#fcf3e0;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:'IBM Plex Sans',-apple-system,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+  }
+
+  /* ===== Top Nav ===== */
+  .topnav{
+    background:linear-gradient(135deg,var(--navy),var(--navy-light));
+    color:#fff;
+    padding:22px 40px;
+    box-shadow:0 2px 12px rgba(0,0,0,0.15);
+  }
+  .topnav h1{
+    font-family:'Lora',serif;
+    font-size:1.55rem;
+    margin:0 0 6px 0;
+    font-weight:600;
+    letter-spacing:0.3px;
+  }
+  .topnav .meta{
+    font-size:0.85rem;
+    color:#b8c8db;
+    margin-bottom:14px;
+  }
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:10px;
+  }
+  .legend-item{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:0.78rem;
+    background:rgba(255,255,255,0.08);
+    padding:5px 11px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,0.15);
+  }
+  .legend-dot{
+    width:11px;height:11px;border-radius:50%;display:inline-block;
+  }
+
+  /* ===== Section Nav (sticky) ===== */
+  .secnav{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:var(--paper-dark);
+    border-bottom:1px solid var(--border);
+    padding:10px 40px;
+    overflow-x:auto;
+    white-space:nowrap;
+    box-shadow:0 1px 4px rgba(0,0,0,0.04);
+  }
+  .secnav a{
+    color:var(--navy);
+    text-decoration:none;
+    font-size:0.82rem;
+    font-weight:500;
+    padding:6px 13px;
+    border-radius:6px;
+    margin-right:4px;
+    transition:all 0.2s;
+  }
+  .secnav a:hover{background:var(--navy);color:#fff}
+
+  /* ===== Main 2-col ===== */
+  .container{
+    max-width:1500px;
+    margin:0 auto;
+    padding:30px 30px;
+  }
+  .row{
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    gap:28px;
+    margin-bottom:24px;
+  }
+  .section-title{
+    grid-column:1/-1;
+    font-family:'Lora',serif;
+    font-size:1.4rem;
+    color:var(--navy);
+    border-bottom:2px solid var(--navy);
+    padding-bottom:6px;
+    margin:30px 0 6px 0;
+    font-weight:600;
+  }
+
+  /* ===== Paper text (left) ===== */
+  .paper{
+    font-family:'Lora',serif;
+    font-size:1rem;
+    line-height:1.85;
+    color:#222;
+    background:#fffdf7;
+    padding:22px 28px;
+    border-radius:6px;
+    border:1px solid var(--border);
+    box-shadow:0 1px 3px rgba(0,0,0,0.04);
+  }
+  .paper p{margin:0 0 14px 0;text-align:justify}
+  .paper .subhead{
+    font-family:'Lora',serif;
+    font-style:italic;
+    font-weight:600;
+    color:var(--navy);
+    font-size:1.05rem;
+    margin:18px 0 8px 0;
+  }
+
+  mark{
+    padding:1px 3px;
+    border-radius:3px;
+    font-weight:500;
+  }
+  mark.q1{background:var(--q1-bg);border-bottom:2px solid var(--q1)}
+  mark.q2{background:var(--q2-bg);border-bottom:2px solid var(--q2)}
+  mark.q3{background:var(--q3-bg);border-bottom:2px solid var(--q3)}
+  mark.q4{background:var(--q4-bg);border-bottom:2px solid var(--q4)}
+  mark.q5{background:var(--q5-bg);border-bottom:2px solid var(--q5)}
+
+  /* ===== Annotation cards (right) ===== */
+  .anno-stack{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .anno{
+    background:#fff;
+    border-left:4px solid var(--navy);
+    border-radius:4px;
+    padding:13px 16px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.05);
+    font-size:0.9rem;
+    line-height:1.7;
+  }
+  .anno.q1{border-left-color:var(--q1);background:var(--q1-bg)}
+  .anno.q2{border-left-color:var(--q2);background:var(--q2-bg)}
+  .anno.q3{border-left-color:var(--q3);background:var(--q3-bg)}
+  .anno.q4{border-left-color:var(--q4);background:var(--q4-bg)}
+  .anno.q5{border-left-color:var(--q5);background:var(--q5-bg)}
+  .anno.general{border-left-color:var(--navy);background:#f4f1e8}
+
+  .qtag{
+    display:inline-block;
+    font-size:0.7rem;
+    font-weight:700;
+    padding:2px 8px;
+    border-radius:10px;
+    color:#fff;
+    margin-right:6px;
+    margin-bottom:6px;
+    letter-spacing:0.4px;
+  }
+  .qtag.q1{background:var(--q1)}
+  .qtag.q2{background:var(--q2)}
+  .qtag.q3{background:var(--q3)}
+  .qtag.q4{background:var(--q4)}
+  .qtag.q5{background:var(--q5)}
+  .qtag.general{background:var(--navy)}
+
+  .anno strong{color:var(--navy);font-weight:600}
+  .anno .label{
+    font-size:0.75rem;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    font-weight:600;
+    margin-top:6px;
+    display:block;
+  }
+
+  /* ===== Worksheet bottom ===== */
+  .worksheet{
+    background:linear-gradient(180deg,var(--paper-dark),var(--paper));
+    margin-top:50px;
+    padding:40px 30px;
+    border-top:3px double var(--navy);
+  }
+  .worksheet h2{
+    font-family:'Lora',serif;
+    color:var(--navy);
+    font-size:1.7rem;
+    text-align:center;
+    margin:0 0 8px 0;
+  }
+  .worksheet .sub{
+    text-align:center;
+    color:var(--muted);
+    font-size:0.9rem;
+    margin-bottom:30px;
+  }
+  .ws-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+    max-width:1500px;
+    margin:0 auto;
+  }
+  .ws-card{
+    background:#fff;
+    border-radius:8px;
+    padding:22px 24px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.06);
+    border-top:4px solid var(--navy);
+    font-size:0.92rem;
+    line-height:1.75;
+  }
+  .ws-card.q1{border-top-color:var(--q1)}
+  .ws-card.q2{border-top-color:var(--q2)}
+  .ws-card.q3{border-top-color:var(--q3)}
+  .ws-card.q4{border-top-color:var(--q4)}
+  .ws-card.q5{border-top-color:var(--q5)}
+
+  .ws-card h3{
+    font-family:'Lora',serif;
+    margin:0 0 12px 0;
+    font-size:1.1rem;
+    color:var(--navy);
+  }
+  .ws-qlabel{
+    display:inline-block;
+    padding:3px 11px;
+    border-radius:4px;
+    color:#fff;
+    font-weight:700;
+    font-size:0.78rem;
+    margin-right:8px;
+    letter-spacing:0.5px;
+  }
+  .ws-card.q1 .ws-qlabel{background:var(--q1)}
+  .ws-card.q2 .ws-qlabel{background:var(--q2)}
+  .ws-card.q3 .ws-qlabel{background:var(--q3)}
+  .ws-card.q4 .ws-qlabel{background:var(--q4)}
+  .ws-card.q5 .ws-qlabel{background:var(--q5)}
+
+  .ws-card h4{
+    font-size:0.82rem;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:0.6px;
+    margin:14px 0 5px 0;
+    font-weight:600;
+  }
+  .ws-card ul{padding-left:20px;margin:5px 0}
+  .ws-card li{margin-bottom:5px}
+  .ws-card .rebut{
+    background:#fef9f0;
+    border-left:3px solid var(--q5);
+    padding:8px 12px;
+    margin-top:10px;
+    font-size:0.88rem;
+    border-radius:3px;
+  }
+
+  footer{
+    background:var(--navy);
+    color:#b8c8db;
+    text-align:center;
+    padding:18px;
+    font-size:0.8rem;
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width:900px){
+    .row{grid-template-columns:1fr}
+    .ws-grid{grid-template-columns:1fr}
+    .topnav{padding:18px 20px}
+    .container{padding:20px 16px}
+    .secnav{padding:8px 16px}
+    .topnav h1{font-size:1.2rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== TOP NAV ===== -->
+<header class="topnav">
+  <h1>Myelin is repaired by constitutive differentiation of oligodendrocyte progenitors</h1>
+  <div class="meta">Mironova et al., <em>Science</em> 391(6783), eadu2896 · 2026 &nbsp;|&nbsp; Journal Club Annotated Reading · Bergles Lab (Johns Hopkins)</div>
+  <div class="legend">
+    <span class="legend-item"><span class="legend-dot" style="background:var(--q1)"></span>Q1 核心论点 / 模型挑战</span>
+    <span class="legend-item"><span class="legend-dot" style="background:var(--q2)"></span>Q2 DACS 方法学</span>
+    <span class="legend-item"><span class="legend-dot" style="background:var(--q3)"></span>Q3 Attempt vs Success</span>
+    <span class="legend-item"><span class="legend-dot" style="background:var(--q4)"></span>Q4 Aging / Inflammation / MS</span>
+    <span class="legend-item"><span class="legend-dot" style="background:var(--q5)"></span>Q5 局限 / 未来实验</span>
+  </div>
+</header>
+
+<!-- ===== SECTION NAV ===== -->
+<nav class="secnav">
+  <a href="#abstract">Abstract</a>
+  <a href="#intro">Introduction</a>
+  <a href="#ecm">OPC ECM 产生</a>
+  <a href="#dacs">DACS 鉴定</a>
+  <a href="#diff">DACS = 分化尝试</a>
+  <a href="#aggrecan">Aggrecan / 6-O 硫酸化</a>
+  <a href="#region">脑区差异</a>
+  <a href="#aging">Aging</a>
+  <a href="#demyel">脱髓鞘反应</a>
+  <a href="#inflam">炎症 / Homeostasis</a>
+  <a href="#discussion">Discussion</a>
+  <a href="#worksheet">Worksheet</a>
+</nav>
+
+<div class="container">
+
+<!-- ============== ABSTRACT ============== -->
+<h2 class="section-title" id="abstract">Abstract</h2>
+<div class="row">
+  <div class="paper">
+    <p>Oligodendrocytes form myelin sheaths around axons to enable rapid signaling within neural circuits. The generation of new oligodendrocytes through differentiation of oligodendrocyte precursor cells (OPCs) promotes myelin plasticity and repair in the adult brain. Here we performed genetic interrogation and in vivo analysis of OPCs in order to determine their differentiation dynamics. <mark class="q1">Our results show that OPCs attempt to differentiate throughout the adult CNS with spatial and temporal regularity.</mark> <mark class="q1">The differentiation rate was not influenced by myelin demand or oligodendrocyte loss</mark>, and <mark class="q4">declined with age and in response to acute inflammation</mark>. The results suggest that <mark class="q1">OPC differentiation is governed primarily by constitutive processes</mark> and might be negatively influenced by aging and inflammation.</p>
+  </div>
+  <div class="anno-stack">
+    <div class="anno q1">
+      <span class="qtag q1">Q1 核心论点</span>
+      <strong>段落功能：</strong>开宗明义提出全文的颠覆性主张。
+      <span class="label">论证逻辑</span>
+      作者用三句话同时建立 <em>正面命题</em>（OPC 分化是 constitutive、时空规律性的）与 <em>负面命题</em>（不被髓鞘需求或 OL loss 调控）。这直接挑战了主流"按需诱导"模型。
+      <span class="label">回答层次</span>
+      Q1 顶层论点；Q4 边界条件（aging、inflammation 是负向调节，而非正向"需求"调节）。
+    </div>
+  </div>
+</div>
+
+<!-- ============== INTRO ============== -->
+<h2 class="section-title" id="intro">Introduction</h2>
+<div class="row">
+  <div class="paper">
+    <p>The adult central nervous system (CNS) has a limited capacity for repair... The most prominent regenerative response occurs in response to destruction of oligodendrocytes and their myelin sheaths, which allow rapid conduction of nerve impulses, regulate neuronal excitability, and provide metabolic support to underlying axons. Generation of new oligodendrocytes continues into adulthood, can be altered by behavioral experience, and is crucial to restore myelin in diseases such as multiple sclerosis (MS).</p>
+    <p>This ongoing oligodendrogenesis is enabled by the differentiation of oligodendrocyte precursor cells (OPCs), which remain abundant and widely distributed in both gray and white matter throughout life. <mark class="q1">Current models of myelin repair suggest that these progenitors are induced to differentiate in response to changes in neural activity and detect local oligodendrocyte loss to regenerate myelin.</mark> However, <mark class="q3">it has been difficult to track OPC differentiation events in vivo, as most OPCs that begin to transform into oligodendrocytes in the adult CNS die at the premyelinating stage and are rapidly cleared.</mark> As a result, little is known about the mechanisms that regulate OPC lineage progression in the mature brain.</p>
+  </div>
+  <div class="anno-stack">
+    <div class="anno q1">
+      <span class="qtag q1">Q1</span>
+      <strong>建立"靶子"：</strong>明确点出当下教科书模型——"OPC 感知 OL 缺失 / 神经活性而被诱导分化"。这正是本文要推翻的对象。
+    </div>
+    <div class="anno q3">
+      <span class="qtag q3">Q3 关键技术瓶颈</span>
+      <strong>方法学动机：</strong>承认"分化尝试"难以追踪——多数 premyelinating OL 死亡后被清除，因此过去只能看到"成功事件"，把成功 = 分化率，从而高估了"按需诱导"。
+      <span class="label">回答 Q3 第一层</span>
+      为后文区分 <em>attempt</em> 与 <em>success</em> 埋下伏笔——核心创新点的合理性来源。
+    </div>
+  </div>
+</div>
+
+<!-- ============== ECM ============== -->
+<h2 class="section-title" id="ecm">OPCs produce ECM proteins</h2>
+<div class="row">
+  <div class="paper">
+    <p><mark class="q3">Histological analyses and in vivo imaging studies indicate that oligodendrogenesis is highly inefficient in both the developing and adult CNS, with most differentiating cells undergoing apoptosis prior to myelin sheath formation.</mark> As most cells that begin lineage progression die, it has been difficult to assess the extent of differentiation brain-wide in different physiological and pathological conditions.</p>
+    <p>To establish a new strategy for in vivo assessment of OPC lineage progression, we interrogated single cell RNA sequencing (scRNA-seq) profiles of oligodendroglia... The most highly expressed mRNAs in OPCs included <mark class="q2">chondroitin sulfate proteoglycans (CSPGs), such as Cspg4, Vcan, Ptprz1, Bcan, and Acan</mark>... <mark class="q2">CSPG expression was particularly high in OPCs and newly formed oligodendrocytes (NFOs) in the initial stages of differentiation. These transcripts decreased to near undetectable amounts in mature oligodendrocytes</mark>, suggesting that changes in CSPG expression could be used to identify oligodendroglia in the early stages of differentiation.</p>
+  </div>
+  <div class="anno-stack">
+    <div class="anno q3">
+      <span class="qtag q3">Q3</span>
+      <strong>再次强调：</strong>"highly inefficient" + "most undergo apoptosis" → 暗示 attempt ≫ success。这是 Q3 的核心生物学事实基础。
+    </div>
+    <div class="anno q2">
+      <span class="qtag q2">Q2 方法学起点</span>
+      <strong>论证逻辑：</strong>从 scRNA-seq 找标记物 → CSPGs 在 OPC/NFO 阶段高表达、成熟 OL 几乎不表达 → 提供一个"瞬时窗口"标记。
+      <span class="label">为什么重要</span>
+      这是 DACS 方法学的转录组学依据——为什么 CSPG 沉积能特异标记"正在分化的细胞"。
+    </div>
+  </div>
+</div>
+
+<!-- ============== DACS ============== -->
+<h2 class="section-title" id="dacs">OPCs exhibit a unique pattern of CSPG production — DACS</h2>
+<div class="row">
+  <div class="paper">
+    <p>To analyze CSPG production by OPCs in situ, we performed immunostaining of mouse brains with an anti-chondroitin sulfate (CS) antibody (CS56), revealing that <mark class="q2">the adult brain contains discrete rosettes of CS immunoreactivity of variable intensity that are widely distributed throughout the brain</mark>... termed <mark class="q2">"Dandelion Clock-like Structures" (DACS)</mark>, which were thought to reflect ECM production by astrocytes.</p>
+    <p>To determine if this labeling is specific for CSPGs and to monitor their production, we generated <mark class="q2">transgenic mice in which the bacterial enzyme chondroitinase ABC ("ChABC")...can be inducibly expressed</mark>... When ChaseR-TRE;CAMKII-tTA mice were chronically exposed to doxycycline (DOX), HA immunoreactivity was absent and DACS and... PNNs, were visible... Upon DOX withdrawal at weaning, HA+ neurons were visible... and CS56+ DACS and WFA+ PNNs were absent, indicating efficient re-induction of Chase expression.</p>
+    <p>To determine if these CSPG-rich DACS are dynamic structures, DOX was reintroduced for 14 days... DACS and PNNs were present indicating that <mark class="q2">DACS are continuously formed in the CNS</mark>.</p>
+    <p>To determine if DACS are exclusively produced by OPCs, we generated a transgenic mouse line that enables selective ablation of OPCs (OPC-Terminator)... <mark class="q2">A single i.p. injection of diphtheria toxin (DT) was sufficient to ablate nearly all cortical OPCs within 24 hours</mark>... <mark class="q2">almost no DACS were detected in the same cortical region at this timepoint, supporting the conclusion that DACS are exclusively produced by OPCs</mark>.</p>
+  </div>
+  <div class="anno-stack">
+    <div class="anno q2">
+      <span class="qtag q2">Q2 DACS 命名 & 反驳旧说</span>
+      <strong>段落功能：</strong>DACS 不是新结构，但作者重新归属其细胞来源——过去认为是 astrocyte 来源，现在归给 OPC。
+    </div>
+    <div class="anno q2">
+      <span class="qtag q2">Q2 必要性证明 (loss-of-function 1)</span>
+      <strong>逻辑：</strong>ChABC 可诱导酶切 CSPG。
+      <ul style="margin:6px 0">
+        <li>DOX ON（无 ChABC）→ DACS 存在</li>
+        <li>DOX OFF（ChABC 表达）→ DACS 消失</li>
+        <li>重新 DOX ON 14 天 → DACS 重新出现</li>
+      </ul>
+      <strong>结论：</strong>DACS 是 CSPG，且 <em>不断更新</em>（dynamic），不是发育期残留。这点决定了 DACS 可作为"近期 ~10 天内"的事件标记。
+    </div>
+    <div class="anno q2">
+      <span class="qtag q2">Q2 必要性证明 (loss-of-function 2)</span>
+      <strong>OPC-Terminator 敲除：</strong>DT 杀死 OPC 后 8 天，OPC 已重新填充，但 DACS 几乎为 0。
+      <span class="label">逻辑要点</span>
+      新生 OPC 没立即产生 DACS → DACS 不是"OPC 存在"的标志，而是"特定状态（即将分化）"的标志。这是 Q2 与 Q3 之间的桥梁。
+    </div>
+  </div>
+</div>
+
+<!-- ============== DACS = differentiation attempts ============== -->
+<h2 class="section-title" id="diff">DACS surround differentiating OPCs</h2>
+<div class="row">
+  <div class="paper">
+    <p>Although DACS are produced by OPCs, <mark class="q2">they are far less abundant than OPCs, suggesting that they may be associated with a particular state of these cells</mark>. Close inspection... revealed that <mark class="q2">DACS+ OPCs exhibited weaker NG2 immunoreactivity, a feature of oligodendroglia in the initial stages of differentiation</mark>... EGFP+ DACS+ cells had lower NG2 immunoreactivity and more primary processes compared to EGFP+ cells devoid of surrounding DACS.</p>
+    <p>To determine how long DACS remain associated with differentiating cells, we genetically tagged OPCs... <mark class="q2">>50% of DACS co-localized with EGFP+ NG2+ cells (OPCs) and EGFP+ NG2– cells (newly formed oligodendrocytes/NFOs, and myelinating oligodendrocytes)</mark>. All EGFP+ DACS+ OPCs co-localized with BCAS1, a gene upregulated at the NFO stage. <mark class="q2">DACS were also observed surrounding dying NFOs</mark>... suggesting that EGFP–NG2– DACS reflect temporary persistence of modified ECM at sites where NFOs failed to survive. Together, these results indicate that <mark class="q3">DACS most likely mark the site of each OPC differentiation attempt.</mark></p>
+    <p>If DACS provide a snapshot of all differentiation attempts that occurred in the last ~10 days, the number of DACS should match the number of OPCs that initiate lineage progression detected through longitudinal in vivo imaging over a 10-day period... we found <mark class="q2">close correspondence between OPC differentiation attempts and the number of DACS</mark>. These results support the conclusion that <mark class="q2">ECM modification by OPCs enables detection of all differentiation attempts, regardless of success.</mark></p>
+  </div>
+  <div class="anno-stack">
+    <div class="anno q2">
+      <span class="qtag q2">Q2 状态特异性</span>
+      <strong>形态学证据：</strong>DACS+ OPC 表现 NG2↓ + 初级突起↑ —— 这两个都是分化早期的经典指标。
+    </div>
+    <div class="anno q3">
+      <span class="qtag q3">Q3 关键定义</span>
+      <strong>核心创新句：</strong>"DACS mark the site of each OPC differentiation <em>attempt</em>"。
+      <span class="label">为何重要</span>
+      作者特别说明 DACS 也环绕 <em>正在死亡的 NFO</em>。这意味着 DACS 把"成功 + 失败"两类事件都计入——这正是与传统"看到新 OL 才算分化"的根本差别。
+      <span class="label">逻辑后果</span>
+      所有后续脑区/年龄/脱髓鞘比较，都是在 attempt 层面而非 success 层面进行——这是全文最关键的概念区分。
+    </div>
+    <div class="anno q2">
+      <span class="qtag q2">Q2 定量交叉验证</span>
+      <strong>关键校准实验：</strong>10 天活体双光子追踪到的分化尝试数 ≈ 同区域 DACS 数。
+      <span class="label">意义</span>
+      为 DACS 作为脑区/年龄/疾病批量评估工具提供了金标准校准；不再需要侵入性活体成像。
+    </div>
+  </div>
+</div>
+
+<!-- ============== Aggrecan / sulfation ============== -->
+<h2 class="section-title" id="aggrecan">DACS = 6-O-sulfated aggrecan</h2>
+<div class="row">
+  <div class="paper">
+    <p>Of these, <mark class="q2">aggrecan carries by far the most CS chains</mark>... DACS were abolished when Acan was selectively deleted from OPCs (Pdgfrα-CreER;Acanfl/fl mice, "Acan cKO"). However, the presence of Acan mRNA in OPCs prior to differentiation, and the selective emergence of CS56 immunoreactivity at the onset of differentiation, suggests that <mark class="q2">DACS are unlikely to represent simply enhanced expression of aggrecan</mark>.</p>
+    <p>Transcriptional analysis suggests that OPCs in the initial stages of differentiation undergo <mark class="q2">a shift in expression of genes that modify sulfur addition to aggrecan</mark>. Expression of CS4T (Chst11)... declines as OPCs differentiate... Coincident with these changes, expression of CS6T (Chst3)... transiently increases in NFOs... <mark class="q2">OPCs may acutely change the sulfation pattern on aggrecan from the 4 to the 6 position as they differentiate.</mark> Indeed, conditional knockout of Chst3 within OPCs... <mark class="q2">abolished DACS</mark>.</p>
+    <p>Chst3-deficient OPCs exhibited <mark class="q5">normal rates of attempted differentiation and integration at both ages, suggesting that this matrix change is not used in a cell autonomous manner to modulate their differentiation</mark>. However, <mark class="q5">OPCs in Chst3 cKO mice exhibited higher proliferation</mark>... suggesting that this ECM modification may function in a cell non-autonomous manner to control their homeostatic replacement.</p>
+  </div>
+  <div class="anno-stack">
+    <div class="anno q2">
+      <span class="qtag q2">Q2 分子身份</span>
+      <strong>分子层面的 DACS：</strong>不是"新合成的 aggrecan"，而是 <em>同一蛋白的硫酸化转换</em>（C-4 → C-6）。Chst3 cKO 即可消除 DACS → 验证假说。
+    </div>
+    <div class="anno q5">
+      <span class="qtag q5">Q5 局限暗示</span>
+      <strong>潜在弱点：</strong>Chst3 cKO 不影响 attempt 速率本身 → 说明 DACS 是分化的 <em>副产物</em>，并非分化的因果驱动。
+      <span class="label">值得追问</span>
+      若 DACS 仅是被动标记，那么 ChABC ON 的实验中"DACS 消失"是否影响过程本身？该 ECM 改变的非自主功能（信号 OPC 不要扩增）尚未有受体层面的机制证据——是 Q5 重要的延伸方向。
+    </div>
+  </div>
+</div>
+
+<!-- ============== Region differences ============== -->
+<h2 class="section-title" id="region">分化尝试与髓鞘需求脱钩</h2>
+<div class="row">
+  <div class="paper">
+    <p>The density of oligodendrocytes varies dramatically across the brain... If differences in OPC lineage progression contribute to this myelin patterning, the density of DACS and oligodendrocytes should be correlated. However, <mark class="q1">DACS were present in the molecular layer of the cerebellum, suggesting that OPCs constantly attempt to differentiate in this area but never successfully integrate</mark>. Although the density of DACS was lower in the cerebellum than the somatosensory cortex, <mark class="q1">normalization to the lower density of OPCs in this area revealed that the rate of OPC differentiation was similar between these brain regions</mark>, suggesting <mark class="q1">cell autonomous regulation of lineage progression</mark>. In vivo two-photon imaging confirmed that <mark class="q3">OPCs frequently attempt to differentiate in the cerebellar molecular layer, but ultimately die, with visible process fragmentation</mark>. Thus, <mark class="q1">OPC lineage progression is apparently uncoupled from oligodendrocyte need in the adult brain</mark>.</p>
+  </div>
+  <div class="anno-stack">
+    <div class="anno q1">
+      <span class="qtag q1">Q1 经典证据</span>
+      <strong>巧妙的解剖学论证：</strong>小脑分子层是"无髓鞘区"——按"按需"模型不应有分化尝试，但 DACS 大量存在 → 直接否证"需求驱动"。
+      <span class="label">论证强度</span>
+      这是全文对传统模型最有力的反例：把"在不该有的地方有 attempt"放在显微镜下。
+    </div>
+    <div class="anno q3">
+      <span class="qtag q3">Q3 概念分离的强证据</span>
+      <strong>分子层场景：</strong>attempt 高 + integration 几乎为 0 → 说明 "attempt" 与 "successful oligodendrogenesis" 必须分开衡量。这是 Q3 概念上"为何重要"的最佳直观例证。
+    </div>
+  </div>
+</div>
+
+<!-- ============== Aging ============== -->
+<h2 class="section-title" id="aging">OPC differentiation attempts decline with age</h2>
+<div class="row">
+  <div class="paper">
+    <p>To assess whether changes in OPC differentiation behavior contribute to this aging-dependent decline... <mark class="q4">DACS density was lower in older mice, despite a similar number of OPCs</mark>. Consistent with this evidence of reduced lineage progression, there was a significant decrease in the number of DACS+ BCAS1+ cells, suggesting that <mark class="q4">OPC differentiation attempts decline with age</mark>. Time lapse in vivo two-photon imaging... revealed that <mark class="q4">OPCs in older mice showed reduced differentiation attempts, and ultimately fewer oligodendrocytes were formed</mark>. These results indicate that OPCs <mark class="q4">shift to a more quiescent state as the brain ages</mark>.</p>
+  </div>
+  <div class="anno-stack">
+    <div class="anno q4">
+      <span class="qtag q4">Q4 衰老</span>
+      <strong>关键：</strong>OPC 数目不变，但 attempt 减少。
+      <span class="label">对 MS / aging remyelination 的意义</span>
+      老年人 remyelination 失败的传统解释是"OPC 耗竭 / 招募失败"。本文给出第三种解释：<em>OPC 仍在但变 quiescent，attempt 频率降低</em>。这意味着治疗策略应是"激活内源 attempt"而非补充 OPC。
+    </div>
+  </div>
+</div>
+
+<!-- ============== Demyelination ============== -->
+<h2 class="section-title" id="demyel">脱髓鞘不增加分化尝试</h2>
+<div class="row">
+  <div class="paper">
+    <p>If OPCs detect changes in oligodendrocyte viability or the presence of myelin, the frequency with which they differentiate should increase upon demyelination... Tissue examined two weeks after cessation of cuprizone, a time when the demand for new oligodendrocytes and myelin is high, <mark class="q1">exhibited the same density of DACS as controls</mark>. Analysis of NFOs co-immunoreactive for CS56 and BCAS1 revealed that <mark class="q3">more of these cells exhibited morphology of newly integrated oligodendrocytes with nascent myelin sheaths</mark>... suggesting <mark class="q3">the apparent increase in oligodendrogenesis is due to enhanced survival of transitioning cells, rather than enhanced OPC lineage progression</mark>.</p>
+    <p>Consistent with the DACS analysis, <mark class="q1">the frequency of OPC differentiation attempts was not increased</mark> during the time when appearance of new oligodendrocytes was maximal, and OPC differentiation remained consistent across cortical depth, despite the increase in appearance of new oligodendrocytes in deeper layers... Together, these results indicate that <mark class="q1">OPCs do not sense the presence (or loss of) oligodendrocytes and do not alter their rate of differentiation to promote myelin repair</mark>. Therefore, <mark class="q1">constitutive OPC lineage progression continues to define their behavior after demyelination</mark>.</p>
+  </div>
+  <div class="anno-stack">
+    <div class="anno q1">
+      <span class="qtag q1">Q1 终极验证</span>
+      <strong>反主流模型最直接的证据：</strong>cuprizone 脱髓鞘 + DT 选择性杀 OL 两套独立模型都显示 attempt 不增加。
+      <span class="label">补强</span>
+      皮层深层 vs 浅层 OL 出现差异，但 attempt 不分层 → 说明位置选择性发生在 <em>survival 阶段</em> 而非 attempt。
+    </div>
+    <div class="anno q3">
+      <span class="qtag q3">Q3 范式重塑</span>
+      <strong>新模型：</strong>所谓 "remyelination ↑" = NFO survival ↑（而非 attempt ↑）。这把研究问题从 "如何招募 OPC" 重新定向到 "如何让已经在分化的 NFO 不死"。
+      <span class="label">临床意义</span>
+      MS 药物开发需重新评估：测 attempt vs 测 mature OL 数会得出截然不同的结论。
+    </div>
+  </div>
+</div>
+
+<!-- ============== Inflammation / Homeostasis ============== -->
+<h2 class="section-title" id="inflam">炎症与稳态替换抑制 attempt</h2>
+<div class="row">
+  <div class="paper">
+    <p>To determine whether the cell-intrinsic regulation of OPC differentiation is affected by inflammation, we assessed differentiation attempts of OPCs in mice that had been exposed to a high dose of <mark class="q4">lipopolysaccharide (LPS)</mark>... Although the density of OPCs was not affected by LPS, there were <mark class="q4">fewer DACS, indicating that persistent inflammation suppresses OPC differentiation attempts, which may limit their ability to replace oligodendrocytes in the context of injury and disease</mark>.</p>
+    <p>To assess how engaging in homeostatic proliferation impacts their ability to differentiate, we examined... 15–17 days after DT administration, a time when prior OPC proliferation was high, but OPC repopulation was now near-complete. <mark class="q4">Both DACS and BCAS1+ NFO density remained dramatically reduced</mark>... <mark class="q4">lineage progression is suppressed by homeostatic proliferation</mark>. Thus, direct damage to OPCs during chronic inflammation may further impair their ability to generate new oligodendrocytes, as they <mark class="q4">prioritize homeostatic replacement over differentiation</mark>.</p>
+  </div>
+  <div class="anno-stack">
+    <div class="anno q4">
+      <span class="qtag q4">Q4 炎症</span>
+      <strong>急性 LPS：</strong>OPC 数量不变 → attempt ↓。说明 OPC 不是被消除，而是被 "冻结"。
+    </div>
+    <div class="anno q4">
+      <span class="qtag q4">Q4 双重打击模型</span>
+      <strong>关键概念：</strong>OPC 在 "homeostatic proliferation 修复种群" 与 "lineage progression" 之间存在 <em>优先级竞争</em>。当 OPC 被损伤（MS 慢性病程中常见），它们会优先填补自身缺口而非分化。
+      <span class="label">对 MS 的解释</span>
+      慢性 MS 病灶里 premyelinating OL 减少不是"OPC 招募失败"，而是 OPC 把资源用于自我维持。这与 Q1 "constitutive 而非按需"模型互洽：attempt 速率有上限、有竞争。
+    </div>
+  </div>
+</div>
+
+<!-- ============== Discussion ============== -->
+<h2 class="section-title" id="discussion">Discussion</h2>
+<div class="row">
+  <div class="paper">
+    <p><mark class="q1">Our studies indicate that the initial steps of this process, involving changes in gene expression associated with lineage progression and initial morphological transformation, occurs consistently throughout the adult CNS, independent of the demand for additional oligodendrocytes and myelin.</mark> These results suggest that <mark class="q3">enhanced oligodendrogenesis – the appearance of new myelinating oligodendrocytes – is primarily achieved by enabling NFO survival, rather than by increasing OPC differentiation. The nature of the signals that enable NFOs to exit this vulnerable stage and achieve full maturation are unknown.</mark></p>
+    <p>The concept that developmental oligodendrogenesis is determined by the constitutive differentiation of OPCs was first proposed by Raff and colleagues... <mark class="q5">However, it has been unclear whether this constitutive program persists in the adult CNS or is replaced by regulated recruitment.</mark></p>
+    <p>Our results suggest that <mark class="q1">oligodendrocyte 'regeneration' might be an extension of developmental oligodendrogenesis, rather than a distinct reparative process</mark>... in the absence of regular oligodendrocyte turnover or degeneration, there may have been insufficient evolutionary pressure to establish a separate regenerative process involving OPC mobilization, as demyelinating injuries and disease are rare in early life. <mark class="q4">The decline in frequency of OPC differentiation attempts with age, in response to severe inflammation, and following homeostatic replacement, could contribute to the slower recovery observed in patients with demyelinating diseases such as MS.</mark></p>
+    <p><mark class="q5">Although in vivo imaging provides a direct measure of lineage progression, the high technological cost and expertise required for these studies, and the inaccessibility of many brain regions to this procedure, limit its broad application.</mark> ...as matrix formation and modification can be affected by age, infection, and injury <mark class="q5">it will be important to consider these possible changes when inferring OPC differentiation rates solely from DACS densities.</mark></p>
+  </div>
+  <div class="anno-stack">
+    <div class="anno q1">
+      <span class="qtag q1">Q1 总结陈述</span>
+      <strong>新模型一句话：</strong>成人 OL 再生 = 发育性 oligodendrogenesis 的延伸，而非独立的"修复程序"。
+      <span class="label">演化论据</span>
+      作者提出有趣的目的论：脱髓鞘疾病在青春期前少见，因此演化未必产生独立的"再生模块"——这是对"按需诱导"的根本性怀疑。
+    </div>
+    <div class="anno q3">
+      <span class="qtag q3">Q3 范式转向</span>
+      <strong>研究问题的重写：</strong>过去问 "如何招募更多 OPC"，现在应问 "如何让 NFO 存活到成熟"。这是 Q3 在临床/基础研究上的最深远涵义。
+    </div>
+    <div class="anno q5">
+      <span class="qtag q5">Q5 作者自承的局限</span>
+      <ul style="margin:6px 0">
+        <li>DACS 形成/清除速率可能被 age/infection/injury 改变 → 不能简单等同 attempt 数</li>
+        <li>活体成像的脑区局限</li>
+        <li>NFO 存活信号未知（最大未解之谜）</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================== -->
+<!-- ============== WORKSHEET ===================== -->
+<!-- ============================================== -->
+</div><!-- /container -->
+
+<section class="worksheet" id="worksheet">
+  <h2>Worksheet · 答题索引</h2>
+  <div class="sub">每题包含核心论点、关键证据、潜在反驳/局限三层</div>
+  <div class="ws-grid">
+
+    <!-- Q1 -->
+    <div class="ws-card q1">
+      <h3><span class="ws-qlabel">Q1</span>核心论点：constitutive 而非"按需诱导"</h3>
+      <h4>核心论点</h4>
+      <p>OPC 在成年 CNS 中以 <strong>时空规律性的 constitutive 速率</strong>持续尝试分化；这一速率<strong>不被髓鞘需求或 OL 缺失所调节</strong>，因此现有"OPC 感知 OL loss / 神经活性而被诱导分化"的修复模型需被改写。所谓 remyelination 增强主要来自 NFO 存活率提升，而非分化频率上调。</p>
+      <h4>关键证据 (4 条独立证据汇聚)</h4>
+      <ul>
+        <li><strong>解剖学反例：</strong>小脑分子层（永远不形成髓鞘）仍持续产生 DACS——按需模型预测应为 0。</li>
+        <li><strong>Cuprizone 模型：</strong>恢复期髓鞘需求最高时，DACS 密度与对照无差；活体成像同样显示 attempt 速率不上升。</li>
+        <li><strong>DT 选择性杀 OL：</strong>8 周后 DACS 密度仍与对照相同——直接 OL 缺失不诱导更多 attempt。</li>
+        <li><strong>皮层深度分析：</strong>cuprizone 后新 OL 偏好出现于深层，但 attempt 在各层无差异 → 选择性发生在存活阶段。</li>
+      </ul>
+      <h4>对传统模型的挑战</h4>
+      <p>传统模型把 "more new OLs" 等同于 "more OPC differentiation"。本文证明这是 confound：<strong>看到的输出 = attempt × survival</strong>，而 survival 才是被调节的变量。</p>
+      <div class="rebut"><strong>潜在反驳：</strong>(1) Cuprizone 主要影响皮层，而经典 remyelination 研究多在 corpus callosum/脊髓 — attempt 在那些区域是否真不变？(2) DACS 寿命假设为 ~10 天，若炎症/脱髓鞘改变 DACS 清除速率，DACS 密度未变可能掩盖 attempt 真实变化（作者自己也承认）。(3) "constitutive" 不等于 "完全不调节"——aging 与 LPS 都能下调 attempt，说明系统并非纯粹 cell-intrinsic。</div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="ws-card q2">
+      <h3><span class="ws-qlabel">Q2</span>DACS 作为分化尝试的标记 & 方法学角色</h3>
+      <h4>DACS 是什么</h4>
+      <p>DACS = Dandelion Clock-like Structure，CS56 抗体识别的 <strong>6-O-硫酸化 aggrecan</strong> 玫瑰花结状沉积，约 70–100 μm 直径，环绕正在分化的 OPC/NFO。</p>
+      <h4>建立 DACS = OPC 分化尝试的多重证据</h4>
+      <ul>
+        <li><strong>转录组学：</strong>CSPGs（Acan、Cspg4、Vcan 等）在 OPC/NFO 高表达，成熟 OL 几乎为零。</li>
+        <li><strong>共定位：</strong>>50% DACS 与 EGFP+ 谱系标记细胞共定位；DACS+ OPC 普遍 NG2↓、突起↑、BCAS1+，符合分化早期形态。</li>
+        <li><strong>Loss-of-function 1（ChABC 诱导酶切）：</strong>DOX 调控显示 DACS 是 CSPG 且持续翻新（非长寿蛋白积累）。</li>
+        <li><strong>Loss-of-function 2（OPC 消融）：</strong>DT 杀 OPC 后 8 天 DACS 几近为 0，即使 OPC 已重新填充——说明 DACS 来源专属于 OPC、且仅在分化时产生。</li>
+        <li><strong>Loss-of-function 3（Acan/Chst3 cKO）：</strong>分子身份验证为 6-O-硫酸化 aggrecan。</li>
+        <li><strong>定量校准：</strong>10 天 in vivo 双光子追踪到的 attempt 数 ≈ 同区域 DACS 数 → 提供金标准对照。</li>
+      </ul>
+      <h4>方法学角色</h4>
+      <p>DACS 提供首个可在固定组织中、<strong>无需基因标记/活体成像</strong>就能<strong>同时计入成功与失败 attempt</strong>的快照式标记物。它把"动态分化事件"变为"静态可数实体"，使大规模、跨脑区、跨年龄、跨疾病的比较成为可能。这是本文从 descriptive 到 paradigm-shifting 的关键技术杠杆。</p>
+      <div class="rebut"><strong>潜在反驳/局限：</strong>(1) DACS 寿命估计仅来自 ChABC ON/OFF 间接推断，未直接活体追踪单个 DACS 寿命。(2) Chst3 cKO 不影响 attempt 速率 → DACS 是 attempt 的<em>副产物</em>，标记物有效性依赖于"attempt 与 DACS 形成耦合"在病理状态下不变 — 但作者也警告 infection/injury 可能改变 ECM 转换。(3) 在某些极端炎症下若 ECM 被 MMP 等加速降解，DACS 密度下降可能<em>错误归因</em>为 attempt 减少。</div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="ws-card q3">
+      <h3><span class="ws-qlabel">Q3</span>Attempt vs Successful Oligodendrogenesis</h3>
+      <h4>本质区分</h4>
+      <p><strong>Differentiation attempt</strong> = OPC 启动转录组转换 + 形态变化（NG2↓、突起↑、BCAS1+），无论最终是否存活。<strong>Successful oligodendrogenesis</strong> = NFO 跨越 premyelinating 阶段、形成稳定髓鞘、整合为成熟 ASPA+ OL。两者间存在巨大瓶颈：成人 CNS 大多数 attempt 以凋亡告终。</p>
+      <h4>本文如何区分</h4>
+      <ul>
+        <li><strong>DACS 标记 attempt</strong>（包括围绕"濒死 NFO"的 DACS——见 fig. S6 atrophied 突起 + 致密胞体）。</li>
+        <li><strong>BCAS1+ NFO + 髓鞘形态</strong>标记 success。</li>
+        <li><strong>活体双光子追踪</strong>直接区分：differentiation attempt（启动）→ integration（成功）→ death（失败）三种命运。</li>
+        <li><strong>小脑分子层</strong>是关键判别场景：高 attempt + 几乎 0 integration → 两者必须分开。</li>
+        <li><strong>Cuprizone 恢复期</strong>是关键互补场景：attempt 不变 + integration 大幅上升 → 调控点在 survival 阶段。</li>
+      </ul>
+      <h4>为什么对 remyelination 关键</h4>
+      <p>(1) <strong>研究问题转向：</strong>从 "如何招募更多 OPC" → "如何让 NFO 存活成熟"。后者才是限速步骤。 (2) <strong>药物筛选范式：</strong>过去以"OPC 增殖/分化数"为指标的化合物可能是 false positive（增了 attempt 但 survival 仍失败）。 (3) <strong>临床解释：</strong>慢性 MS 病灶中存在大量 BCAS1+ premyelinating OL，过去解释为"招募成功但分化阻断"；新框架下应解读为"attempt 持续发生但 survival 信号缺失"。 (4) <strong>治疗靶点重估：</strong>NFO 存活信号成为最有价值但目前仍未知的目标——这是作者明确点出的"the most important unknown"。</p>
+      <div class="rebut"><strong>潜在反驳：</strong>(1) "attempt" 与 "abortive differentiation" 边界不清——若一个细胞表达 BCAS1 但 1 天后死亡，与一个能存活 5 天的细胞，是否应同等计为 attempt？(2) 若 cuprizone 后 NFO 存活被环境信号增强，那"signal 是否反过来诱导更多 attempt"在长期阶段（>5 周）尚未排除。</div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="ws-card q4">
+      <h3><span class="ws-qlabel">Q4</span>Aging、炎症、homeostatic replacement 的影响</h3>
+      <h4>三种负向调节</h4>
+      <ul>
+        <li><strong>Aging（P100 → P365）：</strong>OPC 数目不变，但 DACS 密度 ↓、BCAS1+ NFO ↓、活体成像 attempt 与 integration 同步下降 → OPC 进入 quiescent 状态。</li>
+        <li><strong>急性炎症（LPS × 3 天）：</strong>microglia 活化、体重/体温下降，OPC 数目不变，DACS 显著减少 → 炎症抑制 attempt 而不杀 OPC。</li>
+        <li><strong>Homeostatic replacement（OPC-Terminator DT 后 15–17 dpi）：</strong>OPC 群体已基本恢复，但 DACS 与 BCAS1+ NFO 密度仍显著降低 → 群体恢复优先于谱系前进。</li>
+      </ul>
+      <h4>对 MS / aging remyelination failure 的意义</h4>
+      <ul>
+        <li><strong>重写衰老解释：</strong>老年 remyelination 不良不仅是 OPC 招募失败 / OPC 数下降，而是 <em>OPC 内在 attempt 频率下调</em>。治疗需"唤醒"而非"补充"OPC。</li>
+        <li><strong>慢性炎症的双重打击：</strong>MS 病灶中持续炎症 + 反复 OPC 损伤 → OPC 同时面临 (a) attempt 被炎症抑制 (b) 资源被自身 homeostatic proliferation 占用。这解释了为何慢性病灶比急性病灶更难修复。</li>
+        <li><strong>"窗口期"概念：</strong>急性病灶有短暂 NFO 存活提升期；慢性期 attempt 本身被压低 → 临床干预时机至关重要。</li>
+        <li><strong>药物开发新指标：</strong>不应仅看 OPC 增殖；应同时测 attempt 频率（DACS 等）+ NFO 存活率。</li>
+      </ul>
+      <div class="rebut"><strong>潜在反驳/局限：</strong>(1) LPS 是急性全身性炎症模型，与 MS 的局灶适应性免疫不完全等价——细胞因子谱差异巨大。(2) Aging 实验仅比较 P100 vs P365，未到真正"老年"（P700+）；rates 是否进一步下降未知。(3) Homeostatic replacement 抑制 attempt 的机制（PDGF-AA 供需？）未直接验证；作者承认仅是"一致于"该模型。(4) 人类 MS 数据来自 fixed tissue，DACS 在人脑中 8 旬仍存在但与 attempt 速率的定量关系未在人组织中校准。</div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="ws-card q5">
+      <h3><span class="ws-qlabel">Q5</span>主要局限 & 后续实验设计</h3>
+      <h4>主要局限</h4>
+      <ul>
+        <li><strong>DACS 动力学未直接测量：</strong>"~10 天寿命"来自间接拟合；若 ECM 翻转速率随病理改变，DACS 密度可能误读 attempt 速率。</li>
+        <li><strong>NFO 存活信号未知：</strong>本文最大未解之谜；"survival 决定 success"是新框架，但驱动 survival 的分子尚未识别。</li>
+        <li><strong>脑区覆盖局限：</strong>主要数据在体感皮层 + 小脑分子层；白质（corpus callosum、脊髓）传统 remyelination 研究核心区域，本文活体成像未直接覆盖。</li>
+        <li><strong>物种与人化验证有限：</strong>scRNA-seq 跨小鼠/狨猴/人，但 DACS 功能性实验仅在小鼠；人脑中 DACS 是否同样标记 attempt 缺乏直接证据。</li>
+        <li><strong>Cell-non-autonomous 机制不明：</strong>Chst3 cKO 引起邻近 OPC 增殖增加，但 6-O-sulfated aggrecan 的受体、信号通路未鉴定。</li>
+        <li><strong>炎症模型的特异性：</strong>LPS 系统性 + 短期；与 MS 慢性、抗原特异性炎症生物学差距大。</li>
+        <li><strong>"attempt" 内部异质性：</strong>是否所有 attempt 等价？早死与晚死的 NFO 是否反映不同 attempt 状态？目前合并处理。</li>
+      </ul>
+      <h4>下一步实验建议</h4>
+      <ul>
+        <li><strong>DACS 寿命直接测量：</strong>开发活体可成像 CSPG 报告（如 6-O-sulfation-specific FP biosensor），单 DACS 时序追踪。</li>
+        <li><strong>NFO 存活筛选：</strong>用 BCAS1-CreER × 报告 + 全基因组 CRISPR 筛选或 perturb-seq，鉴定决定 NFO 存活 vs 凋亡的关键基因；候选包括邻近神经元活性、轴突直径、PI3K-AKT。</li>
+        <li><strong>White matter 验证：</strong>在 corpus callosum、视神经、脊髓做 DACS 定量 + 多模型脱髓鞘比较，检验"constitutive"是否在白质成立。</li>
+        <li><strong>人脑 attempt 指数：</strong>对 MS 死后样本（活动性 vs 慢性病灶）做 CS56 + BCAS1 + Chst3 染色，建立人类 attempt 指数与病程关联。</li>
+        <li><strong>6-O-sulfated aggrecan 受体鉴定：</strong>近端 BioID 或 sulfation-specific 化学探针 pulldown，找邻近 OPC 上的受体（候选 PTPσ、LAR、RPTP）。</li>
+        <li><strong>NFO survival 干预 + remyelination：</strong>条件性敲除候选凋亡通路（如 PUMA、Bax）于 BCAS1+ 阶段，测量 cuprizone 后髓鞘恢复——验证"提升 survival 比招募 OPC 更有效"假说。</li>
+        <li><strong>慢性炎症模型：</strong>EAE 或 cuprizone + LPS 联合，检验 attempt 与 survival 谁先失代偿；时间分辨 scRNA-seq + DACS 量化。</li>
+        <li><strong>PDGF-AA "supply-demand" 直接检验：</strong>条件性下调 PDGFRα 信号在 homeostatic replacement 期，看 attempt 是否解除抑制。</li>
+      </ul>
+      <div class="rebut"><strong>设计原则：</strong>所有后续实验应同时测量 <em>attempt（DACS 或活体）</em>与 <em>success（成熟 OL 数）</em>两个独立终点，避免重复过去 confound 两者的错误。</div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  Mironova et al., Science 2026 · Annotated for Journal Club · 双栏批注以颜色对应五大核心问题
+</footer>
+
+</body>
+</html>
